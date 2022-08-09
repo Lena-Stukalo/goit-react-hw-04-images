@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ImageGalleryItem from './ImageGalleryItem';
 import LoadMoreButton from 'components/loadMore/LoadmoreButton';
 import Loader from './Loader';
+import getImages from 'components/services/APIwork';
 import css from './ImageGallery.module.css';
 class ImageGallery extends Component {
   state = {
@@ -14,22 +15,14 @@ class ImageGallery extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.foundImg !== this.props.foundImg) {
-      this.setState({ page: 1 });
+      this.setState({ page: 1, images: [] });
     }
     if (
       prevProps.foundImg !== this.props.foundImg ||
       prevState.page !== this.state.page
     ) {
       this.setState({ status: 'loading' });
-      fetch(
-        `https://pixabay.com/api/?key=28164685-e508b46b7d4362311384dafbb&q=${this.props.foundImg}&image_type=photo&pretty=true&orientation=horizontal&per_page=12&page=${this.state.page}`
-      )
-        .then(res => {
-          if (res.ok) {
-            return res.json();
-          }
-          return Promise.reject(new Error(`No results`));
-        })
+      getImages(this.props.foundImg, this.state.page)
         .then(images =>
           this.setState(prevState => {
             const newArray = [...prevState.images, ...images.hits];
