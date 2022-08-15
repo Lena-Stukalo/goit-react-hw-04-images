@@ -24,7 +24,7 @@ function Searchbar({ onSubmit }) {
           type="text"
           autoComplete="off"
           autoFocus
-          placeholder="Search images and photos"
+          placeholder="Search images and photo"
           required
           value={value}
           onChange={onInputChange}
