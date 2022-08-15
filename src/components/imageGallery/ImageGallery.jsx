@@ -7,7 +7,7 @@ import getImages from '../../services/APIwork';
 import css from './ImageGallery.module.css';
 function ImageGallery({ foundImg, showModal, getImg }) {
   const [images, setImages] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
   const [status, setStatus] = useState('rest');
   const [error, setError] = useState('');
 
