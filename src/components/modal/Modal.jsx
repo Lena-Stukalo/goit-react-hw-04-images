@@ -1,37 +1,40 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import css from './Modal.module.css';
 
 const modalRoot = document.querySelector('#modal-root');
-class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.hendleKeyDown);
-  }
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.hendleKeyDown);
-  }
-  hendleKeyDown = e => {
+function Modal({ src, toggleModal }) {
+  useEffect(() => {
+    {
+      window.addEventListener('keydown', hendleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', hendleKeyDown);
+      };
+    }
+  });
+
+  const hendleKeyDown = e => {
     if (e.code === 'Escape') {
-      this.props.toggleModal();
+      toggleModal();
     }
   };
-  hendleBackDropClick = event => {
+  const hendleBackDropClick = event => {
     if (event.currentTarget === event.target) {
-      this.props.toggleModal();
+      toggleModal();
     }
   };
-  render() {
-    return createPortal(
-      <div className={css.Overlay} onClick={this.hendleBackDropClick}>
-        <div className={css.Modal}>
-          <img src={this.props.src} alt="" />
-        </div>
-      </div>,
-      modalRoot
-    );
-  }
+
+  return createPortal(
+    <div className={css.Overlay} onClick={hendleBackDropClick}>
+      <div className={css.Modal}>
+        <img src={src} alt="" />
+      </div>
+    </div>,
+    modalRoot
+  );
 }
+
 Modal.propTypes = {
   src: PropTypes.string,
   toggleModal: PropTypes.func,

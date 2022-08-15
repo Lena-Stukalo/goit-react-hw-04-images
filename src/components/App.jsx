@@ -1,40 +1,33 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import Searchbar from './searchbar/Searchbar';
 import ImageGallery from './imageGallery/ImageGallery';
 import Modal from './modal/Modal';
 import css from './App.module.css';
 
-export class App extends Component {
-  state = {
-    value: '',
-    showModal: false,
-    modalImg: '',
+export function App() {
+  const [value, setValue] = useState('');
+  const [showModal, setShowModal] = useState('');
+  const [modalImg, setModalImg] = useState('');
+
+  const onFormSubmit = value => {
+    setValue(value);
   };
-  onFormSubmit = ({ value }) => {
-    this.setState({ value: value });
+  const toggleModal = () => {
+    setShowModal(prevState => !prevState);
   };
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
-  getModalImg = img => {
-    this.setState({ modalImg: img });
+  const getModalImg = img => {
+    setModalImg(img);
   };
 
-  render() {
-    return (
-      <div className={css.App}>
-        <Searchbar onSubmit={this.onFormSubmit} />
-        <ImageGallery
-          foundImg={this.state.value}
-          showModal={this.toggleModal}
-          getImg={this.getModalImg}
-        />
-        {this.state.showModal && (
-          <Modal src={this.state.modalImg} toggleModal={this.toggleModal} />
-        )}
-      </div>
-    );
-  }
+  return (
+    <div className={css.App}>
+      <Searchbar onSubmit={onFormSubmit} />
+      <ImageGallery
+        foundImg={value}
+        showModal={toggleModal}
+        getImg={getModalImg}
+      />
+      {showModal && <Modal src={modalImg} toggleModal={toggleModal} />}
+    </div>
+  );
 }
