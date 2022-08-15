@@ -6,12 +6,10 @@ import css from './Modal.module.css';
 const modalRoot = document.querySelector('#modal-root');
 function Modal({ src, toggleModal }) {
   useEffect(() => {
-    {
-      window.addEventListener('keydown', hendleKeyDown);
-      return () => {
-        window.removeEventListener('keydown', hendleKeyDown);
-      };
-    }
+    window.addEventListener('keydown', hendleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', hendleKeyDown);
+    };
   });
 
   const hendleKeyDown = e => {
