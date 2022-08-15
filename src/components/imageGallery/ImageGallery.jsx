@@ -35,6 +35,7 @@ function ImageGallery({ foundImg, showModal, getImg }) {
 
   const onLoadMoreClick = () => {
     setPage(prevState => prevState + 1);
+    console.log('завантажуємо');
   };
   if (status === 'error') {
     return <h1>{error.message}</h1>;
